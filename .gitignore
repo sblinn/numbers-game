@@ -1,5 +1,6 @@
 
 .idea
+
 app/.env
 app/src/auth_config.json
 app/package-lock.json

@@ -10,6 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
+#TODO: This migration should be updated. ids should be auto-generated, created_at and updated_at should be added.
 final class Version20230609144605 extends AbstractMigration
 {
     public function getDescription(): string

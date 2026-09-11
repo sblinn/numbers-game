@@ -7,35 +7,58 @@ services:
       dockerfile: Dockerfile.dev
     #projectname-server
     container_name: aep-project-server
+    env_file:
+      - ./server/.env
     depends_on:
       - postgres
     ports:
       - "8000:8000"
     volumes:
-      - "./server:/application"
+      - ./server:/application
     environment:
       XDEBUG_CONFIG: "remote_host=host.docker.internal"
       PHP_IDE_CONFIG: "serverName=AEPProject"
-      LOG_LEVEL: 'debug'
-      APP_ENV: 'dev'
-      DATABASE_URL: 'postgresql://postgres:testingpass@postgres:5432/db?serverVersion=13&charset=utf8'
+      LOG_LEVEL: debug
+      # APP_ENV: ${APP_ENV}
+      # DATABASE_URL: ${DATABASE_URL}
 
   ###> doctrine/doctrine-bundle ###
   postgres:
-    image: postgres
-    container_name: aep-project-postgres
+    image: postgres:18-alpine
+    container_name: aep-project-postgres-db
     ports:
-      - "5433:5432"
+      - "5432:5432"
     environment:
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: 'testingpass'
+      # Password should be changed in a production environment
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
     volumes:
-      - aep-project-db-data:/var/lib/postgresql/data:rw
+      - aep-project-db-data:/var/lib/postgresql
       # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+  ###< doctrine/doctrine-bundle ###
+
+  # VITE port 5173
+  client:
+    image: node:24.19.0
+    container_name: client
+    # build:
+    #   context: ./app
+    working_dir: /app
+    ports:
+      - "5173:5173"
+    depends_on:
+      - server
+    volumes:
+      - ./app:/app
+      - /app/node_modules
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    
 
 volumes:
   ###> doctrine/doctrine-bundle ###
   aep-project-db-data:
   ###< doctrine/doctrine-bundle ###
+
+
