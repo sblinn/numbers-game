@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Dto\incoming\AddEventGameDto;
 use App\Dto\incoming\CreateEventDto;
-use App\Dto\incoming\GetEventModeGamesDto;
 use App\Dto\incoming\UpdateEventDto;
 use App\Exception\EntityNotFoundException;
 use App\Exception\InvalidRequestDataException;
