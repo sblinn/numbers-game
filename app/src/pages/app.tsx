@@ -3,9 +3,9 @@ import { Provider } from 'jotai/index';
 import { queryClientAtom } from 'jotai-tanstack-query';
 import { useHydrateAtoms } from 'jotai/react/utils';
 
-import './App.css';
-import Footer from './components/Footer';
-import AppContent from './components/AppContent';
+import './styles/app.css';
+import Footer from '../components/Footer';
+import AppContent from '../components/AppContent';
 
 const queryClient = new QueryClient();
 
